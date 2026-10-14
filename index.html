@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Weather Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- UI LAYER: HEADER -->
+    <header>
+      <h1>Weather Dashboard</h1>
+      <p>Demonstrating Three-Layer Architecture</p>
+    </header>
+
+    <!-- UI LAYER: USER INPUT CONTROLS -->
+    <section class="card controls-grid">
+      <div class="search-row">
+        <input type="text" id="cityInput" placeholder="Enter city name (e.g., London, Tokyo)" />
+        <button id="searchBtn">Search</button>
+      </div>
+
+      <div class="options-row">
+        <div class="unit-toggle">
+          <button id="unitC" class="unit-btn active">°C</button>
+          <button id="unitF" class="unit-btn">°F</button>
+        </div>
+        <div class="recent-searches" id="recentSearches">
+          <!-- Dynamically populated chips -->
+        </div>
+      </div>
+
+      <div class="api-config">
+        <details>
+          <summary style="cursor:pointer; color: var(--text-muted);">API Settings (Optional)</summary>
+          <div style="display:flex; gap:0.5rem; margin-top:0.5rem;">
+            <input type="text" id="apiKeyInput" placeholder="Paste OpenWeather API Key" />
+            <button id="saveKeyBtn" style="padding:0.4rem 0.8rem; font-size:0.8rem;">Save Key</button>
+          </div>
+          <p style="color:var(--text-muted); margin-top:0.25rem; font-size:0.75rem;">
+            Leave empty to use built-in demo data.
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- UI LAYER: STATUS / MESSAGES -->
+    <div id="statusMessage" class="status-msg"></div>
+
+    <!-- UI LAYER: WEATHER DISPLAY CONTAINER -->
+    <main class="card weather-card" id="weatherCard">
+      <div class="weather-header">
+        <div>
+          <div class="city-name" id="cityName">--</div>
+          <div class="date-time" id="dateTime">--</div>
+        </div>
+      </div>
+
+      <div class="weather-main">
+        <div class="temp-container">
+          <span class="temp-val" id="tempVal">--</span>
+          <span class="temp-unit" id="tempUnit">°C</span>
+        </div>
+        <div class="condition-box">
+          <img id="weatherIcon" class="weather-icon" src="" alt="Weather Icon" style="display:none;" />
+          <div class="condition-desc" id="conditionDesc">--</div>
+        </div>
+      </div>
+
+      <div class="weather-details">
+        <div class="detail-item">
+          <span class="detail-label">Humidity</span>
+          <span class="detail-value" id="humidityVal">--</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Wind Speed</span>
+          <span class="detail-value" id="windVal">--</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Feels Like</span>
+          <span class="detail-value" id="feelsLikeVal">--</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">Pressure</span>
+          <span class="detail-value" id="pressureVal">--</span>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
