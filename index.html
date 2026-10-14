@@ -16,10 +16,10 @@
       <p>Demonstrating Three-Layer Architecture</p>
     </header>
 
-    <!-- UI LAYER: USER INPUT CONTROLS -->
+    <!-- UI LAYER: INPUT CONTROLS -->
     <section class="card controls-grid">
       <div class="search-row">
-        <input type="text" id="cityInput" placeholder="Enter city name (e.g., London, Tokyo)" />
+        <input type="text" id="cityInput" placeholder="Enter city name..." value="London" />
         <button id="searchBtn">Search</button>
       </div>
 
@@ -28,17 +28,14 @@
           <button id="unitC" class="unit-btn active">°C</button>
           <button id="unitF" class="unit-btn">°F</button>
         </div>
-        <div class="recent-searches" id="recentSearches">
-          <!-- Dynamically populated chips -->
-        </div>
       </div>
     </section>
 
-    <!-- UI LAYER: STATUS / MESSAGES -->
+    <!-- UI LAYER: STATUS MESSAGES -->
     <div id="statusMessage" class="status-msg"></div>
 
-    <!-- UI LAYER: WEATHER DISPLAY CONTAINER -->
-    <main class="card weather-card" id="weatherCard">
+    <!-- UI LAYER: DISPLAY CARD -->
+    <main class="card weather-card">
       <div class="weather-header">
         <div>
           <div class="city-name" id="cityName">--</div>
@@ -52,7 +49,7 @@
           <span class="temp-unit" id="tempUnit">°C</span>
         </div>
         <div class="condition-box">
-          <img id="weatherIcon" class="weather-icon" src="" alt="Weather Icon" style="display:none;" />
+          <img id="weatherIcon" class="weather-icon" src="" alt="Icon" style="display:none;" />
           <div class="condition-desc" id="conditionDesc">--</div>
         </div>
       </div>
@@ -79,7 +76,7 @@
 
   </div>
 
-  <!-- Connected to script.js -->
+  <!-- SCRIPT LINK MUST BE AT THE VERY BOTTOM OF BODY -->
   <script src="script.js"></script>
 </body>
 </html>
