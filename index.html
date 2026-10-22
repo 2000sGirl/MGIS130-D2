@@ -3,80 +3,231 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal Weather Dashboard</title>
+  <title>Sun's Up - Personal Weather Dashboard</title>
+  
+  <!-- External Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Custom Stylesheet -->
   <link rel="stylesheet" href="style.css">
-</head>
-<body>
 
-  <div class="app-container">
+  <!-- Official Pinterest Script for Native Pin Embedding -->
+  <script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
+</head>
+<body class="p-4 sm:p-6 md:p-8 min-h-screen flex flex-col items-center justify-start w-screen max-w-full overflow-x-hidden">
+
+  <div class="w-full max-w-6xl flex flex-col gap-5 mx-auto my-0 px-2 sm:px-4 box-border">
     
-    <!-- UI LAYER: HEADER -->
-    <header>
-      <h1>Weather Dashboard</h1>
-      <p>Demonstrating Three-Layer Architecture</p>
+    <header class="text-center mb-1 flex flex-col items-center justify-center gap-1 w-full">
+      <div class="flex items-center justify-center gap-3">
+        <!-- Sun's Up App Logo SVG -->
+        <svg class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-sm border border-amber-200/50 flex-shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="skyGrad" x1="50" y1="0" x2="50" y2="60" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#5a9de2"/>
+              <stop offset="35%" stop-color="#8bbae8"/>
+              <stop offset="65%" stop-color="#dfa0c2"/>
+              <stop offset="100%" stop-color="#f8c390"/>
+            </linearGradient>
+            <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#fff5bd"/>
+              <stop offset="40%" stop-color="#ffbe31"/>
+              <stop offset="100%" stop-color="#f39200"/>
+            </radialGradient>
+            <clipPath id="logoClip">
+              <rect width="100" height="100" rx="22"/>
+            </clipPath>
+          </defs>
+          <g clip-path="url(#logoClip)">
+            <!-- Sky Background -->
+            <rect width="100" height="62" fill="url(#skyGrad)"/>
+            
+            <!-- Outer Sun Halo -->
+            <circle cx="50" cy="62" r="30" fill="#fcd34d" opacity="0.35"/>
+            <!-- Inner Sun Halo -->
+            <circle cx="50" cy="62" r="22" fill="#fcd34d" opacity="0.45"/>
+            <!-- Sun Core -->
+            <circle cx="50" cy="62" r="19" fill="url(#sunGrad)"/>
+
+            <!-- Ocean Water -->
+            <rect y="62" width="100" height="24" fill="#3173a9"/>
+
+            <!-- Sun Reflection Lines on Water -->
+            <line x1="35" y1="66" x2="65" y2="66" stroke="#f2ca6b" stroke-width="2" stroke-linecap="round"/>
+            <line x1="39" y1="70" x2="61" y2="70" stroke="#ebd17d" stroke-width="1.8" stroke-linecap="round"/>
+            <line x1="43" y1="73" x2="57" y2="73" stroke="#e0ca86" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="46" y1="76" x2="54" y2="76" stroke="#d5c18c" stroke-width="1.2" stroke-linecap="round"/>
+
+            <!-- Sand Beach Bottom -->
+            <path d="M-5 86 Q 30 80, 60 88 T 105 84 L105 105 L-5 105 Z" fill="#f7e0b5"/>
+            <path d="M-5 89 Q 40 85, 70 91 T 105 87 L105 105 L-5 105 Z" fill="#f3d49b"/>
+          </g>
+        </svg>
+
+        <h1 class="text-2xl sm:text-3xl font-serif-title font-bold text-amber-950 tracking-wide">Sun's Up</h1>
+      </div>
+      <p class="text-xs sm:text-sm font-medium text-amber-900/70 italic">your daily dose of sunshine, whatever it's like outside.</p>
     </header>
 
-    <!-- UI LAYER: INPUT CONTROLS -->
-    <section class="card controls-grid">
-      <div class="search-row">
-        <input type="text" id="cityInput" placeholder="Enter city name..." value="London" />
-        <button id="searchBtn">Search</button>
+    <div class="flex flex-col md:flex-row gap-6 items-start w-full">
+      
+      <div class="w-full md:w-2/3 flex flex-col gap-5">
+        
+        <!-- Search Bar -->
+        <div class="glass-card rounded-none p-3 sm:p-4 flex flex-col sm:flex-row items-center gap-3">
+          <div class="relative flex-1 w-full">
+            <input 
+              type="text" 
+              id="cityInput" 
+              placeholder="Search city (e.g. Rochester, London, Tokyo)..." 
+              value="Rochester"
+              class="w-full px-4 py-2.5 rounded-none bg-white/80 border border-amber-200/80 text-slate-800 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 placeholder-slate-400 font-medium"
+            />
+          </div>
+          
+          <div class="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
+            <button 
+              id="searchBtn" 
+              class="px-5 py-2.5 bg-gradient-to-r from-amber-500 via-rose-500 to-pink-500 text-white font-semibold text-sm rounded-none shadow-md hover:from-amber-600 hover:to-pink-600 transition-all flex-1 sm:flex-none active:scale-95"
+            >
+              Search
+            </button>
+
+            <!-- Unit Switch -->
+            <div class="flex bg-amber-100/70 p-1 rounded-none border border-amber-200/60">
+              <button id="unitF" class="px-3 py-1.5 rounded-none text-xs font-bold transition-all bg-amber-500 text-white shadow-sm">°F</button>
+              <button id="unitC" class="px-3 py-1.5 rounded-none text-xs font-bold transition-all text-slate-700 hover:text-amber-700">°C</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="statusMessage" class="hidden p-3 rounded-none text-xs font-medium text-center transition-all"></div>
+
+        <!-- Main Display Card -->
+        <main class="glass-card rounded-none p-5 sm:p-7 flex flex-col gap-6">
+
+          <div class="border-b border-amber-200/60 pb-4 flex justify-between items-end">
+            <div>
+              <h2 id="cityName" class="text-2xl sm:text-3xl font-serif-title font-bold text-slate-900 tracking-tight">Rochester, US</h2>
+              <p id="dateTime" class="text-xs font-semibold text-amber-900/70 uppercase tracking-wider mt-1">Loading...</p>
+            </div>
+          </div>
+
+          <!-- Current Temperature & Dynamic SVG Icon -->
+          <div class="flex items-center justify-between py-1">
+            <div class="flex flex-col">
+              <div class="flex items-baseline">
+                <span id="tempVal" class="text-6xl sm:text-7xl font-light font-serif-title text-slate-900 tracking-tight">--</span>
+                <span id="tempUnit" class="text-2xl font-serif-title text-amber-600 font-normal ml-1">°F</span>
+              </div>
+              <span id="conditionDesc" class="text-sm font-semibold text-amber-800 capitalize mt-1 tracking-wide">--</span>
+            </div>
+
+            <div id="weatherIconContainer" class="w-20 h-20 sm:w-24 sm:h-24 flex items-center justify-center p-2 rounded-2xl bg-amber-50/60 border border-amber-200/80 shadow-inner">
+            </div>
+          </div>
+
+          <!-- Weather Metrics -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-amber-200/60">
+            <div class="bg-white/70 p-3 rounded-2xl border border-amber-100/70 flex flex-col">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-900/60">Feels Like</span>
+              <span id="feelsLikeVal" class="text-base font-bold text-slate-800 mt-0.5">--</span>
+            </div>
+            <div class="bg-white/70 p-3 rounded-2xl border border-amber-100/70 flex flex-col">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-900/60">Humidity</span>
+              <span id="humidityVal" class="text-base font-bold text-amber-700 mt-0.5">--</span>
+            </div>
+            <div class="bg-white/70 p-3 rounded-2xl border border-amber-100/70 flex flex-col">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-900/60">Wind</span>
+              <span id="windVal" class="text-base font-bold text-slate-800 mt-0.5">--</span>
+            </div>
+            <div class="bg-white/70 p-3 rounded-2xl border border-amber-100/70 flex flex-col">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-900/60">Pressure</span>
+              <span id="pressureVal" class="text-base font-bold text-slate-800 mt-0.5">--</span>
+            </div>
+          </div>
+
+          <!-- Hourly Forecast -->
+          <div class="flex flex-col gap-3 pt-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-950/80">Hourly Forecast</h3>
+            <div id="hourlyContainer" class="hourly-scroll flex gap-3 overflow-x-auto pb-2 pt-1">
+            </div>
+          </div>
+
+          <!-- 6-Day Forecast -->
+          <div class="flex flex-col gap-3 pt-3 border-t border-amber-200/60">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-950/80">6-Day Forecast</h3>
+            <div id="dailyContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+            </div>
+          </div>
+
+        </main>
+
+        <!-- Quote Display Card -->
+        <div class="glass-card rounded-none p-6 sm:p-10 flex flex-col justify-between flex-1 gap-6 relative overflow-hidden bg-gradient-to-r from-amber-50/80 via-rose-50/50 to-pink-50/80 border border-amber-200/80 min-h-[500px] h-full w-full shadow-md">
+          
+          <!-- Top Divider Line -->
+          <div class="w-full border-t border-amber-200/40"></div>
+
+          <!-- Quote Content -->
+          <div class="flex flex-col justify-center items-center text-center my-auto px-4 py-4 gap-4 flex-1">
+            <p id="quoteText" class="text-lg sm:text-xl md:text-2xl font-serif-title italic text-amber-950 leading-relaxed max-w-2xl">
+              "Keep your face always toward the sunshine—and shadows will fall behind you."
+            </p>
+            <p id="quoteAuthor" class="text-sm sm:text-base font-bold text-amber-800/90 tracking-wide font-fun">
+              — Walt Whitman
+            </p>
+          </div>
+
+          <!-- Bottom Action Buttons Column -->
+          <div class="flex flex-col items-end gap-2 pt-3 pb-1 border-t border-amber-200/40">
+            <div id="quoteStatusMsg" class="text-[11px] font-semibold text-rose-600 hidden mb-1"></div>
+            <button id="nextQuoteBtn" class="text-xs text-amber-900/70 hover:text-amber-950 font-semibold flex items-center gap-1.5 active:scale-95 px-2.5 py-1 rounded-none hover:bg-amber-100/50 transition-all">
+              🔄 New Quote
+            </button>
+            <button id="copyQuoteBtn" class="text-xs text-amber-900/70 hover:text-amber-950 font-semibold flex items-center gap-1.5 active:scale-95 px-2.5 py-1 rounded-none hover:bg-amber-100/50 transition-all">
+              📋 Copy Quote
+            </button>
+          </div>
+        </div>
+
       </div>
 
-      <div class="options-row">
-        <div class="unit-toggle">
-          <button id="unitC" class="unit-btn active">°C</button>
-          <button id="unitF" class="unit-btn">°F</button>
-        </div>
-      </div>
-    </section>
+      <!-- Outfit & Pinterest Panel -->
+      <div class="w-full md:w-1/3 flex flex-col gap-4 md:sticky md:top-6">
+        <div class="glass-card rounded-none p-5 sm:p-6 flex flex-col gap-4 border border-amber-200/80 bg-gradient-to-b from-white/90 via-amber-50/50 to-rose-50/50 shadow-md">
+          
+          <div class="flex items-center justify-between border-b border-amber-200/60 pb-3">
+            <div class="flex items-center gap-2">
+              <span id="outfitEmoji" class="text-xl inline-block">🧥</span>
+              <h3 class="text-xs font-medium uppercase tracking-wider text-amber-950 font-fun">Recommended Outfit</h3>
+            </div>
+            <button id="refreshOutfitImagesBtn" class="text-[10px] px-2.5 py-1 rounded-none bg-amber-200/60 hover:bg-amber-300/80 text-amber-900 font-bold transition-all active:scale-95">
+              Shuffle
+            </button>
+          </div>
 
-    <!-- UI LAYER: STATUS MESSAGES -->
-    <div id="statusMessage" class="status-msg"></div>
+          <!-- Outfit List -->
+          <ul id="outfitList" class="text-xs text-slate-700 space-y-2 pl-4 list-disc font-normal font-fun leading-relaxed">
+          </ul>
 
-    <!-- UI LAYER: DISPLAY CARD -->
-    <main class="card weather-card">
-      <div class="weather-header">
-        <div>
-          <div class="city-name" id="cityName">--</div>
-          <div class="date-time" id="dateTime">--</div>
-        </div>
-      </div>
+          <!-- Live Pinterest Embed Grid -->
+          <div class="flex flex-col gap-2 pt-3 border-t border-amber-200/60">
+            <span class="text-[11px] font-medium text-amber-950 font-fun">Live Pinterest Lookbook</span>
+            <div id="pinterestEmbedGrid" class="flex flex-col gap-4 items-center justify-center min-h-[220px] w-full pt-2">
+            </div>
+          </div>
 
-      <div class="weather-main">
-        <div class="temp-container">
-          <span class="temp-val" id="tempVal">--</span>
-          <span class="temp-unit" id="tempUnit">°C</span>
-        </div>
-        <div class="condition-box">
-          <img id="weatherIcon" class="weather-icon" src="" alt="Icon" style="display:none;" />
-          <div class="condition-desc" id="conditionDesc">--</div>
         </div>
       </div>
 
-      <div class="weather-details">
-        <div class="detail-item">
-          <span class="detail-label">Humidity</span>
-          <span class="detail-value" id="humidityVal">--</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">Wind Speed</span>
-          <span class="detail-value" id="windVal">--</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">Feels Like</span>
-          <span class="detail-value" id="feelsLikeVal">--</span>
-        </div>
-        <div class="detail-item">
-          <span class="detail-label">Pressure</span>
-          <span class="detail-value" id="pressureVal">--</span>
-        </div>
-      </div>
-    </main>
-
+    </div>
   </div>
 
-  <!-- SCRIPT LINK MUST BE AT THE VERY BOTTOM OF BODY -->
+  <!-- Custom JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
